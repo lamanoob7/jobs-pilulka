@@ -4,8 +4,62 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "bd4fc8792dc6f1945e3ceb0d34ae5364",
+    "content-hash": "4e89843f0ef9dfd3df96faa8a53cf189",
     "packages": [
+        {
+            "name": "coderjerk/bird-elephant",
+            "version": "v0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/danieldevine/bird-elephant.git",
+                "reference": "7dd5464209b2fa85f20689d2caa3d7f4aa8c9c84"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/danieldevine/bird-elephant/zipball/7dd5464209b2fa85f20689d2caa3d7f4aa8c9c84",
+                "reference": "7dd5464209b2fa85f20689d2caa3d7f4aa8c9c84",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "^7.0",
+                "guzzlehttp/oauth-subscriber": "^0.6.0"
+            },
+            "require-dev": {
+                "league/oauth1-client": "^1.10",
+                "phpunit/phpunit": "^9.5",
+                "smolblog/oauth2-twitter": "^1.0",
+                "symfony/var-dumper": "^5.1",
+                "vlucas/phpdotenv": "^5.2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Coderjerk\\BirdElephant\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Daniel Devine",
+                    "email": "jerk@coderjerk.com"
+                }
+            ],
+            "description": "A simple library to request data from the Twitter APIv2 endpoints",
+            "support": {
+                "issues": "https://github.com/danieldevine/bird-elephant/issues",
+                "source": "https://github.com/danieldevine/bird-elephant/tree/v0.5.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/danieldevine",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-06-19T22:36:24+00:00"
+        },
         {
             "name": "doctrine/annotations",
             "version": "1.13.3",
@@ -2082,60 +2136,6 @@
                 }
             ],
             "time": "2022-07-24T12:00:55+00:00"
-        },
-        {
-            "name": "noweh/twitter-api-v2-php",
-            "version": "2.2.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/noweh/twitter-api-v2-php.git",
-                "reference": "1fc1049985daeebcc6a547d9c8ca10c644413e00"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/noweh/twitter-api-v2-php/zipball/1fc1049985daeebcc6a547d9c8ca10c644413e00",
-                "reference": "1fc1049985daeebcc6a547d9c8ca10c644413e00",
-                "shasum": ""
-            },
-            "require": {
-                "ext-curl": "*",
-                "ext-json": "*",
-                "guzzlehttp/guzzle": "^7.4",
-                "guzzlehttp/oauth-subscriber": "^0.6",
-                "php": ">=8.1"
-            },
-            "require-dev": {
-                "phpstan/phpstan": "^1.2.0",
-                "phpunit/phpunit": "^9.5",
-                "vlucas/phpdotenv": "^5.3"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Noweh\\TwitterApi\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Julien Schmitt",
-                    "email": "jschmitt95@protonmail.com"
-                }
-            ],
-            "description": "This library provide methods for sending messages to Twitter and receiving statuses.",
-            "keywords": [
-                "api",
-                "php",
-                "twitter"
-            ],
-            "support": {
-                "issues": "https://github.com/noweh/twitter-api-v2-php/issues",
-                "source": "https://github.com/noweh/twitter-api-v2-php/tree/2.2.2"
-            },
-            "time": "2022-06-19T15:17:39+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",

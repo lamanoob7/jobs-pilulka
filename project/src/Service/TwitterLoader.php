@@ -2,7 +2,9 @@
 
 namespace App\Service;
 
-use Noweh\TwitterApi\Client;
+use App\Service\TwitterLoaded\Operators;
+use Coderjerk\BirdElephant\BirdElephant;
+use Coderjerk\BirdElephant\Tweets;
 
 class TwitterLoaded
 {
@@ -12,49 +14,55 @@ class TwitterLoaded
     public $bearer;
     public $accessToken;
     public $accessSecretToken;
+    public $searchedStrings = [];
     
-    public function getFeeds(array $queries = [], $limit = 10): array
+    public function getFeeds(array $keywords = [], $limit = 10): array
     {
-        $client = $this->getClient();
+        $tweets = $this->getTweets();
 
-        dump($client);
+        $escaped = $this->prepareKeywords($keywords, Operators::OR);
 
-        $return = $client->tweetSearch()
-            ->addFilterOnKeywordOrPhrase([
-                'Dune',
-                'DenisVilleneuve'
-            ], \Noweh\TwitterApi\Enum\Operators::and)
-            ->showUserDetails()
-            ->performRequest()
-        ;
-
-        dump($return);
-
-        $feeds = [
-            'You did it! You updated the system! Amazing!',
-            'That was one of the coolest updates I\'ve seen all day!',
-            'Great work! Keep going!',
+        $params = [
+            'query' => $escaped,
+            'max_results'  => $limit,
         ];
+        
+        $return = $tweets->search()->recent($params);
 
-        return $feeds;
+        return $this->prepareResults($return->data);
     }
 
-    private function prepareSettings(): array
+    private function prepareCredentials(): array
     {
-        $settings = [
-            'account_id' => $this->appId,
-            'consumer_key' => $this->apiKey,
-            'consumer_secret' => $this->apiSecretKey,
-            'bearer_token' => $this->bearer,
-            'access_token' => $this->accessToken,
-            'access_token_secret' => $this->accessSecretToken
-        ];
+        $credentials = array(
+            'bearer_token' => $this->bearer, 
+            'consumer_key' => $this->apiKey, 
+            'consumer_secret' => $this->apiSecretKey, 
+            'auth_token' => $this->accessToken,
+            'token_identifier' => $this->appId, 
+            'token_secret' => $this->accessSecretToken
+        );
 
-        return $settings;
+        return $credentials;
     }
 
-    private function getClient(): Client
+    private function getTweets(): Tweets
     {
-        return new Client($this->prepareSettings());
+        $twitter = new BirdElephant($this->prepareCredentials());
+
+        return $twitter->tweets();
+    }
+
+    private function prepareKeywords(array $keywords, Operators $operatorOnFilteredKeywords = Operators::OR)
+    {
+        $operator = $operatorOnFilteredKeywords === Operators::OR ? ' ' . $operatorOnFilteredKeywords->value . ' ' : ' ';
+
+        $joined = join($operator, $keywords);
+        return $joined;
+    }
+
+    private function prepareResults(array $results)
+    {
+        return $results;
     }
 }

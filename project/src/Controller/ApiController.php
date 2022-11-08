@@ -13,7 +13,13 @@ class ApiController extends AbstractController
     {
         $messages = [];
 
-        dump($twitterLoader->getFeeds());
+
+        $searchedStrings = [
+            '#pilulka',
+            '#pilulkacz'
+        ];
+        
+        dump($twitterLoader->getFeeds($searchedStrings, 100));
 
         // return new Response(
         //     '<html><body>Lucky number: '.$number.'</body></html>'

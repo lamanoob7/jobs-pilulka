@@ -30,3 +30,7 @@ services:
             bearer: '%env(TWITTER_BEARER)%'
             accessToken: '%env(TWITTER_ACCESS_TOKEN)%'
             accessSecretToken: '%env(TWITTER_ACCESS_SECRET_TOKEN)%'
+            searchedStrings: 
+                - "pilulka"
+                - 'pilulkacz'
+                - 'pilulka.cz'
