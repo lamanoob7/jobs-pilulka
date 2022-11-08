@@ -1,0 +1,95 @@
+version: '3.5'
+
+services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: pilulka-nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    expose:
+      - 80
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./docker/nginx-proxy/nginx.tmpl /app/nginx.tmpl
+    networks:
+      - pilulka-network
+
+  pilulka-db:
+    image: mariadb
+    container_name: pilulka-mariadb
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: pilulka
+    volumes:
+      - ./docker/mariadb/conf.d:/etc/mysql/conf.d
+      - ./docker/db-data:/var/lib/mysql
+      - ./docs/install:/var/install
+    networks:
+      - pilulka-network
+
+  pilulka-adminer:
+    image: adminer
+    container_name: pilulka-adminer
+    restart: unless-stopped
+    ports:
+      - 8081:8080
+    depends_on:
+      - pilulka-db
+    links:
+      - pilulka-db:db
+    networks:
+      - pilulka-network
+
+  pilulka-php-composer:
+    build: "docker/php81"
+    volumes:
+      - ".:/var/www/html"
+    networks:
+      - pilulka-network
+    command: composer install
+    configs:
+      - mode: 0777
+        uid: "1000"
+        gid: "1000"
+
+  pilulka-php:
+    build: "docker/php81"
+    volumes:
+      - ".:/var/www/html"
+    links:
+      - pilulka-db:db
+    networks:
+      - pilulka-network
+    depends_on:
+      - pilulka-db
+    environment:
+      XDEBUG_MODE: debug
+      XDEBUG_CONFIG: client_host=host.docker.internal client_port=9003
+    restart: unless-stopped
+    configs:
+      - mode: 0777
+        uid: "1000"
+        gid: "1000"
+
+  pilulka-nginx:
+    build: "docker/nginx/symfony"
+    ports:
+      - "8011:80"
+    expose:
+      - 8011
+    volumes:
+      - "./:/var/www/html"
+    networks:
+      - pilulka-network
+    environment:
+      - VIRTUAL_HOST=pilulka-sandbox.local
+    links:
+      - pilulka-php:php
+    depends_on:
+      - pilulka-php
+    restart: unless-stopped
+
+networks:
+  pilulka-network:
+    driver: bridge
