@@ -31,6 +31,6 @@ services:
             accessToken: '%env(TWITTER_ACCESS_TOKEN)%'
             accessSecretToken: '%env(TWITTER_ACCESS_SECRET_TOKEN)%'
             searchedStrings: 
-                - "pilulka"
-                - 'pilulkacz'
+                - '#pilulka'
+                - '#pilulkacz'
                 - 'pilulka.cz'

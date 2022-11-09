@@ -8,24 +8,30 @@ use App\Service\TwitterLoaded;
 
 class ApiController extends AbstractController
 {
-    #[Route('/api')]
-    public function index(TwitterLoaded $twitterLoader): Response
+    // index for chosing way to show results
+    #[Route('/', name: 'index_page')]
+    public function index(): Response
     {
-        $messages = [];
+        return $this->render('index.html.twig');
+    }
 
+    // JSON response for API 
+    #[Route('/api', name: 'api_json_page')]
+    public function api(TwitterLoaded $twitterLoader): Response
+    {        
+        $feeds = $twitterLoader->getFeeds(100);
 
-        $searchedStrings = [
-            '#pilulka',
-            '#pilulkacz'
-        ];
-        
-        dump($twitterLoader->getFeeds($searchedStrings, 100));
+        return $this->json($feeds);
+    }
+    
+    // User friendly show of results
+    #[Route('/html', name: 'api_html_page')]
+    public function html(TwitterLoaded $twitterLoader): Response
+    {
+        $feeds = $twitterLoader->getFeeds(100);
 
-        // return new Response(
-        //     '<html><body>Lucky number: '.$number.'</body></html>'
-        // );
         return $this->render('api.html.twig', [
-            'messages' => $messages,
+            'feeds' => $feeds,
         ]);
     }
 }

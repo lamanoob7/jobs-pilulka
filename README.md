@@ -4,10 +4,10 @@
 
 Pro využití knihoven a balíčků 3tích stran prosím využij composer - https://getcomposer.org/ a https://packagist.org/
 
-X PHP musí být ve strict type módu verze 8.0 a výše.
-X Je jedno, jestli bude použit docker / vagrant / nebo přímá instalaci PHP a Apache/Nginx na svém stroji.
-X Je nám jedno, jestli se použije nějaký framework, či se použijí šikovně poskládané komponenty 3tích stran.
-X Zdrojové kódy musí být na githubu - tak abychom je mohli projít.
+PHP musí být ve strict type módu verze 8.0 a výše.
+Je jedno, jestli bude použit docker / vagrant / nebo přímá instalaci PHP a Apache/Nginx na svém stroji.
+Je nám jedno, jestli se použije nějaký framework, či se použijí šikovně poskládané komponenty 3tích stran.
+Zdrojové kódy musí být na githubu - tak abychom je mohli projít.
 Projekt musí mít manuál, jak aplikaci rozběhnout a co je k tomu potřeba udělat.
 
 ### Zadání:
@@ -24,7 +24,6 @@ Využité postupy / zdroje, prosím taktéž uvést do dokumentace (např. zde s
 
 Odkaz na github poté poslat v odpovědi na email zpět.
 
-
 Těšíme se na výstup
 
 ## Spustění
@@ -33,19 +32,21 @@ vytvoření všech docker containerů
 ```
 docker-compose up --build -d
 ```
-### struktura DB 
-pro vytvoření základní struktury databáze je nejprve nutné se přihlísit do kontejneru s DB
-```
-docker-compose exec pilulka-db bash
-```
-a pak je potřeba spustit skript na vytvoření DB
-```
-mysql -uroot -ppilulka < /var/install/install.sql && exit
-```
+
 ## Řešení
-### API
 
-`https://packagist.org/packages/noweh/twitter-api-v2-php`
+### Shrnutí
 
+Pro vypracování úkolu jsem se rozhodl použít základ svých Docker nastavení, které používám nejméně nyní k vypracování úloh.
 
+Pro tento konkrétní úkol jsem  upravil nastavení, aby běželo na PHP 8.1.
+
+### Twitter API
+Po prvním použití [noweh/twitter-api-v2-php](https://packagist.org/packages/noweh/twitter-api-v2-php) jsem se rozhodl, že se hashtagy moc přepisují na obyčejná slova a rozhodl se využít klihovnu [BlueElephant]([https://](https://birdelephant.com/)), která byla méně specifická a bylo nutné ručně definovat více věcí,
+
+### Problémy
+Ke stažení 100 nejnovějších příspěvků bohužel nemám dostatečný na typ účtu na Twitteru ( viz `https://developer.twitter.com/en/docs/twitter-api/getting-started/about-twitter-api#v2-access-level` ).
+Přesto věřím, že napsané řešení při nastavení dostatečným účtem  dokáže stáhnout dostatek.
+
+Proto jsem využil funkci `recent()` místo `all()` v `App\Service\TwitterLoaded` na řádku 40.
 
